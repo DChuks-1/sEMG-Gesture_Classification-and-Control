@@ -98,6 +98,10 @@ from src.preprocessing import align_labels
 window_labels = align_labels(labels)
 print("Labels shape:", window_labels.shape)
 
+np.save("data/features.npy", features)
+np.save("data/labels.npy", window_labels)
+print("Saved: features.npy & labels.npy")
+
 
 
 

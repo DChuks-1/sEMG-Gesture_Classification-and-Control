@@ -20,3 +20,18 @@ It includes signal processing, machine learning models, and hardware control (Ar
 1. Install dependencies:
    ```bash
    pip install -r requirements.txt
+
+## 📊 Signal Processing Pipeline
+
+- Loaded subject 37 from NinaPro DB2
+- Applied 20–450 Hz bandpass + 50 Hz notch
+- Segmented into 200 ms overlapping windows
+- Extracted 3 features × 12 channels = 36D feature vectors
+- Labels aligned per window using majority vote
+
+✅ Data ready for machine learning (8822 windows)
+
+## ▶️ Run
+
+```bash
+python main.py
