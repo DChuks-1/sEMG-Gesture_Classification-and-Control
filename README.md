@@ -4,6 +4,9 @@
 This project uses surface EMG signals to classify hand gestures.  
 It includes signal processing, machine learning models, and hardware control (Arduino-based).
 
+## 🧠 Project Scope
+This project explores real-time gesture recognition using sEMG data with integrated muscle fatigue monitoring. The goal is to control a robotic arm (simulated) based on gestures, while adapting behaviour based on fatigue indicators (e.g. RMS and Median Frequency drift).
+
 ## Structure
 
 - `data/`: Raw and processed sEMG data.
