@@ -1,6 +1,7 @@
 import scipy.io
 import numpy as np
 import matplotlib.pyplot as plt
+import pywt
 from scipy.signal import butter, filtfilt, iirnotch
 
 def bandpass_filter(emg, fs=2000, low=20, high=450):
@@ -128,6 +129,28 @@ def align_labels(labels, window_size=400, step_size=200):
         window_labels.append(most_common)
 
     return np.array(window_labels)
+
+def wavelet_denoise(signal, wavelet='db4', level=3):
+    """
+    Apply wavelet denoising to a multi-channel EMG signal.
+
+    Args:
+        signal (ndarray): EMG data, shape (N, C)
+        wavelet (str): Wavelet type
+        level (int): Number of decomposition levels
+
+    Returns:
+        denoised (ndarray): Wavelet-denoised signal
+    """
+    denoised = np.zeros_like(signal)
+    for ch in range(signal.shape[1]):
+        coeffs = pywt.wavedec(signal[:, ch], wavelet, level=level)
+        sigma = np.median(np.abs(coeffs[-1])) / 0.6745
+        uthresh = sigma * np.sqrt(2 * np.log(len(signal)))
+        coeffs = [pywt.threshold(c, value=uthresh, mode='soft') for c in coeffs]
+        denoised[:, ch] = pywt.waverec(coeffs, wavelet)[:signal.shape[0]]
+    return denoised
+
 
 
     
