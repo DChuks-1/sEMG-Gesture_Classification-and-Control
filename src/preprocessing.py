@@ -77,10 +77,24 @@ def segment_emg(emg, window_size=400, step_size=200):
         
     return np.array(segments)
 
+# Adding extra features (ZC, SSC, IEMG)
+def zero_crossings(signal, threshold=1e-3):
+    return np.sum((signal[:-1] * signal[1:] < 0) & 
+                  (np.abs(signal[:-1] - signal[1:]) >= threshold))
+
+def slope_sign_changes(signal, threshold=1e-3):
+    diff1 = np.diff(signal)
+    diff2 = np.diff(diff1)
+    return np.sum(((diff1[:-1] * diff1[1:] < 0) &
+                   (np.abs(diff1[:-1] - diff1[1:]) >= threshold)))
+
+def integrated_emg(signal):
+    return np.sum(np.abs(signal))
+
 # Feature Extraction
 def extract_features(segments, fs=2000):
     """
-    Extract features (RMS, MAV, WL, MF) for each segment.
+    Extract features (RMS, MAV, WL, MF, ZC, SSC, IEMG) for each segment.
 
     Args:
         segments (ndarray): Shape (W, L, C)
@@ -102,12 +116,15 @@ def extract_features(segments, fs=2000):
             mav = np.mean(np.abs(signal))
             wl = np.sum(np.abs(np.diff(signal)))
 
-            # Mean Frequency (MF)
             freqs = rfftfreq(len(signal), d=1/fs)
             spectrum = np.abs(rfft(signal))
-            mf = np.sum(freqs * spectrum) / np.sum(spectrum + 1e-8)  # avoid divide by zero
+            mf = np.sum(freqs * spectrum) / (np.sum(spectrum) + 1e-8)
 
-            window_feats.extend([rms, mav, wl, mf])
+            zc = zero_crossings(signal)
+            ssc = slope_sign_changes(signal)
+            iemg = integrated_emg(signal)
+
+            window_feats.extend([rms, mav, wl, mf, zc, ssc, iemg])
 
         feature_list.append(window_feats)
 
