@@ -13,7 +13,8 @@ import seaborn as sns
 # X = features[:, ::3]  # Slice out RMS features only
 
 # print("Shape of feature matrix (RMS only):", X.shape)
-X = np.load("processed/features_wavelet.npy")  # Use entire feature vector (RMS + MAV + WL)
+# X = np.load("processed/features_wavelet.npy")  # Use entire feature vector (RMS + MAV + WL)
+X = np.load("processed/features_fusion.npy")
 y = np.load("processed/labels_windows.npy")
 
 # Split: 80% train, 20% test, stratified to preserve class distribution

@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pywt
 from scipy.signal import butter, filtfilt, iirnotch
+from scipy.fft import rfft, rfftfreq
+
 
 def bandpass_filter(emg, fs=2000, low=20, high=450):
     """
@@ -76,12 +78,13 @@ def segment_emg(emg, window_size=400, step_size=200):
     return np.array(segments)
 
 # Feature Extraction
-def extract_features(segments):
+def extract_features(segments, fs=2000):
     """
-    Extract features (RMS, MAV, WL) for each segment.
+    Extract features (RMS, MAV, WL, MF) for each segment.
 
     Args:
         segments (ndarray): Shape (W, L, C)
+        fs (int): Sampling rate in Hz
 
     Returns:
         features (ndarray): Shape (W, C x F)
@@ -90,7 +93,6 @@ def extract_features(segments):
     feature_list = []
 
     for window in segments:
-        # Feature container per window
         window_feats = []
 
         for ch in range(C):
@@ -100,7 +102,12 @@ def extract_features(segments):
             mav = np.mean(np.abs(signal))
             wl = np.sum(np.abs(np.diff(signal)))
 
-            window_feats.extend([rms, mav, wl])
+            # Mean Frequency (MF)
+            freqs = rfftfreq(len(signal), d=1/fs)
+            spectrum = np.abs(rfft(signal))
+            mf = np.sum(freqs * spectrum) / np.sum(spectrum + 1e-8)  # avoid divide by zero
+
+            window_feats.extend([rms, mav, wl, mf])
 
         feature_list.append(window_feats)
 
