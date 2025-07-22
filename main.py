@@ -156,7 +156,8 @@ features_notch = extract_features(segments_notch)
 # Wavelet
 wavelet = wavelet_denoise(notched)
 segments_wave = segment_emg(wavelet)
-features_wave = extract_features(segments_wave)
+# features_wave = extract_features(segments_wave)
+features_fusion = extract_features(segments_wave)
 
 # Align Labels Once
 labels_windows = align_labels(labels)
@@ -164,7 +165,8 @@ labels_windows = align_labels(labels)
 # Save to processed/
 np.save("processed/features_bandpass.npy", features_band)
 np.save("processed/features_notch.npy", features_notch)
-np.save("processed/features_wavelet.npy", features_wave)
+# np.save("processed/features_wavelet.npy", features_wave)
+np.save("processed/features_fusion.npy", features_fusion)
 np.save("processed/labels_windows.npy", labels_windows)
 
 print("Features & labels saved to processed/")
