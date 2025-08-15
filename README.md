@@ -11,9 +11,9 @@ This repository implements a distinction‑grade, reproducible sEMG pipeline tha
 
 ## Datasets
 - **NinaPro DB2 (offline)** — 12‑ch sEMG @2 kHz with labelled gestures for training/validation.
-- **Myo Armband (optional live)** — 8‑ch sEMG @200 Hz (+ IMU) for real‑time demonstration.
+- **Myo Armband (optional live)** — 8‑ch sEMG @200 Hz (+ IMU) for immediate demonstration.
 
-## Pipeline (high level)
+## Pipeline
 1. **Preprocess:** zero‑phase 20–450 Hz band‑pass + 50 Hz notch; rectification; (optional) wavelet denoising; per‑session normalisation.
 2. **Segmentation:** 200 ms windows, 100 ms hop (50% overlap).
 3. **Features:**
