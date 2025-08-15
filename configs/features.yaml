@@ -1,0 +1,15 @@
+time_domain:
+  - RMS
+  - WL
+  - ZC
+
+frequency_domain:
+  - MPF
+  - MDF
+
+time_frequency:
+  - STFT
+  - WT
+
+general:
+  sampling_rate: 2000

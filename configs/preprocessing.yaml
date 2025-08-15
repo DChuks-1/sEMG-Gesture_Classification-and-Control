@@ -1,0 +1,12 @@
+filtering:
+  notch_freq: 50
+  bandpass_low: 20
+  bandpass_high: 450
+  filter_order: 4
+
+segmentation:
+  window_size_ms: 200
+  overlap_percentage: 50
+
+normalisation:
+  method: "zscore"  # options: zscore, minmax, none

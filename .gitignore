@@ -425,3 +425,14 @@ FodyWeavers.xsd
 
 # Allow saved EMG plots
 !figures/*.png
+
+# Ignore Processed Folders
+data/raw/
+data/interim/
+data/processed/
+models/
+
+# configs
+configs/profiles/local/*
+configs/profiles/*.secret.yaml
+*.env
